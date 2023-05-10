@@ -1,3 +1,3 @@
 import Header from "./Header";
-
-export { Header };
+import OAuthButton from "./OAuthButton";
+export { Header, OAuthButton };

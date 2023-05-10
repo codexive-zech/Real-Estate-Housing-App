@@ -1,5 +1,10 @@
 const SignUp = () => {
-  return <div>Sign Up</div>;
+  return (
+    <div>
+      <input type="text" placeholder="Name" />
+      <input type="text" placeholder="Password" />
+    </div>
+  );
 };
 
 export default SignUp;
