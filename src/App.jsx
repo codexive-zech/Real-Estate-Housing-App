@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { Home, Profile, Offer, SignUp, SignIn } from "./pages";
+import { Home, Profile, Offer, SignUp, SignIn, ForgetPassword } from "./pages";
 import { Header } from "./components";
 
 function App() {
@@ -13,6 +13,7 @@ function App() {
           <Route path="offer" element={<Offer />} />
           <Route path="sign-in" element={<SignIn />} />
           <Route path="sign-up" element={<SignUp />} />
+          <Route path="forgot-password" element={<ForgetPassword />} />
         </Routes>
       </Router>
     </>
