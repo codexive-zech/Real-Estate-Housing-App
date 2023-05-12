@@ -3,8 +3,18 @@ import { OAuthButton } from "../components";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { useState } from "react";
 import signUp from "../assets/sign_in.svg";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  updateProfile,
+} from "firebase/auth";
+import { db } from "../firebase";
+import { doc, serverTimestamp, setDoc } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const SignUp = () => {
+  const navigate = useNavigate();
   const [registerUser, setRegisterUser] = useState({
     name: "",
     email: "",
@@ -25,6 +35,32 @@ const SignUp = () => {
   };
 
   const { name, email, password } = registerUser;
+
+  const handleUserSignup = async (e) => {
+    e.preventDefault();
+    try {
+      const auth = getAuth(); // initialize the authentication
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      ); // create user detail based on email and password
+      updateProfile(auth.currentUser, {
+        displayName: name,
+      }); // update the display name for authenticated users to the name provided by the user
+      const user = userCredential.user;
+      const registerUserCopy = { ...registerUser }; // get all register user value
+      delete registerUserCopy.password; // delete the password from the register user collection before sending to the database
+      registerUserCopy.timestamp = serverTimestamp(); // adding a registration timestamp fro each user
+      await setDoc(doc(db, "users", user.uid), registerUserCopy); // adding the registered user to the database
+      toast.success("Signed In Successfully");
+      setTimeout(() => {
+        navigate("/");
+      }, 300); // redirect to home page when user is registered successfully
+    } catch (error) {
+      toast.error("Something Went Wrong");
+    }
+  };
   return (
     <div className=" ">
       <section className="">
@@ -36,7 +72,7 @@ const SignUp = () => {
             <img src={signUp} alt="" className="h-[60vh] w-full" />
           </div>
           <div className=" w-full lg:w-[45%] mt-5 lg:mt-0">
-            <form>
+            <form onSubmit={handleUserSignup}>
               <input
                 type="text"
                 placeholder="Name"
