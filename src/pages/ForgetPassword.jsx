@@ -2,9 +2,23 @@ import { Link } from "react-router-dom";
 import { OAuthButton } from "../components";
 import forgotPassword from "../assets/sign_in.svg";
 import { useState } from "react";
+import { getAuth, sendPasswordResetEmail } from "firebase/auth";
+import { toast } from "react-toastify";
 
 const ForgetPassword = () => {
   const [email, setEmail] = useState("");
+
+  const handleForgotPassword = async (e) => {
+    e.preventDefault();
+    try {
+      const auth = getAuth(); // initialize the authentication
+      await sendPasswordResetEmail(auth, email); // sending an email to an authorized user based on the email
+      toast.success("Email Sent Successfully");
+    } catch (error) {
+      toast.error("Invalid Email");
+    }
+  };
+
   return (
     <div className=" ">
       <section className="">
@@ -16,7 +30,7 @@ const ForgetPassword = () => {
             <img src={forgotPassword} alt="" className="h-[60vh] w-full" />
           </div>
           <div className=" w-full lg:w-[45%] mt-5 lg:mt-0">
-            <form>
+            <form onSubmit={handleForgotPassword}>
               <input
                 type="text"
                 placeholder="Email"
@@ -44,7 +58,7 @@ const ForgetPassword = () => {
                 className=" w-full bg-blue-500 py-2 px-5 rounded-md font-semibold uppercase shadow-md hover:bg-blue-600 active:bg-blue-700 transition-all duration-300 text-white mb-3"
                 type="submit"
               >
-                Sign In
+                Reset Password
               </button>
               <div className=" flex items-center before:flex-1 before:border-t before:border-gray-400 after:flex-1 after:border-t after:border-gray-400 ">
                 <p className=" text-center font-bold mx-4">OR</p>

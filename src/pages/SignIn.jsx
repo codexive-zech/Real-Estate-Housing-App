@@ -32,19 +32,19 @@ const SignIn = () => {
   const handleUserSignIn = async (e) => {
     e.preventDefault();
     try {
-      const auth = getAuth();
+      const auth = getAuth(); // initialize the authentication
       const userCredential = await signInWithEmailAndPassword(
         auth,
         email,
         password
-      );
+      ); // signing in a user based on if the user has been authorized before (using email and password)
       if (userCredential.user) {
         navigate("/");
         toast.success("Sign In Successfully");
-      }
+      } // checking if the user already exist before redirecting
     } catch (error) {
       console.log(error);
-      toast.success("Wrong User Credentials");
+      toast.error("Wrong User Credentials");
     }
   };
 
