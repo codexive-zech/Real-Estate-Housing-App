@@ -1,3 +1,4 @@
 import Header from "./Header";
 import OAuthButton from "./OAuthButton";
-export { Header, OAuthButton };
+import PrivateRoute from "./PrivateRoute";
+export { Header, OAuthButton, PrivateRoute };
