@@ -1,16 +1,34 @@
+import { useEffect, useState } from "react";
 import realtorLogo from "../assets/realtor-logo.svg";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 const Header = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const [pageUrl, setPageUrl] = useState("sign In");
+  const auth = getAuth();
+
+  const handlePageUrl = () => {
+    onAuthStateChanged(auth, (user) => {
+      // change the Url navigation bar based on if user is authenticated or not
+      if (user) {
+        setPageUrl("Profile");
+      } else {
+        setPageUrl("Sign In");
+      }
+    });
+  }; // functionality handling changes in Page-Url
 
   function getLocation(urlPath) {
     if (urlPath === location.pathname) {
       return true;
     }
   }
+
+  useEffect(() => {
+    handlePageUrl();
+  }, [auth]);
 
   return (
     <header className=" bg-white shadow-md sticky z-20">
@@ -42,11 +60,13 @@ const Header = () => {
           </li>
           <li
             className={`py-4 cursor-pointer text-sm md:text-md uppercase text-gray-500 font-semibold border-b-[3px] border-b-white ${
-              getLocation("/sign-in") && "border-b-red-500 text-slate-900"
+              // having both location url
+              (getLocation("/sign-in") || getLocation("/profile")) &&
+              "border-b-red-500 text-slate-900"
             }`}
-            onClick={() => navigate("/sign-in")}
+            onClick={() => navigate("/profile")} // start with when user is authenticated
           >
-            Sign In
+            {pageUrl}
           </li>
         </ul>
       </nav>
