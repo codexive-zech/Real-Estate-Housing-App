@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { getAuth, updateProfile } from "firebase/auth";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { db } from "../firebase";
 import { doc, updateDoc } from "firebase/firestore";
+import { FcHome } from "react-icons/fc";
+
 const Profile = () => {
   const auth = getAuth();
   const navigate = useNavigate();
@@ -23,8 +25,6 @@ const Profile = () => {
   };
 
   const handleProfileUpdate = async () => {
-    console.log(changeUserInfo);
-    console.log("Just Logging");
     try {
       if (auth.currentUser.displayName !== name) {
         await updateProfile(auth.currentUser, {
@@ -94,6 +94,18 @@ const Profile = () => {
                 </p>
               </div>
             </form>
+            <button
+              type="submit"
+              className=" bg-blue-600 hover:bg-blue-700 active:bg-blue-800 shadow-md text-sm md:text-lg w-full rounded-md transition-colors duration-300 p-2 font-semibold uppercase text-white"
+            >
+              <Link
+                to="/create-listing"
+                className=" flex items-center justify-center gap-3"
+              >
+                <FcHome className=" bg-red-200 rounded-full p-1 text-2xl lg:text-3xl border" />
+                Sell or Rent Your House
+              </Link>
+            </button>
           </div>
         </div>
       </section>
