@@ -28,7 +28,28 @@ const CreateListing = () => {
     discountedPrice,
   } = listingData;
   const handleListingChange = (e) => {
-    setListingData({});
+    let boolean = null;
+    if (e.target.value === "true") {
+      boolean = true;
+    }
+
+    if (e.target.value === "false") {
+      boolean = false;
+    }
+
+    if (e.target.files) {
+      setListingData((prevState) => ({
+        ...prevState,
+        images: e.target.files,
+      }));
+    }
+
+    if (!e.target.files) {
+      setListingData((prevState) => ({
+        ...prevState,
+        [e.target.id]: boolean ?? e.target.value,
+      }));
+    }
   };
   return (
     <section className=" relative my-8">
@@ -49,8 +70,8 @@ const CreateListing = () => {
                   id="type"
                   value="sell"
                   onClick={handleListingChange}
-                  className={` w-full bg-white py-4 px-8 shadow-md hover:shadow-lg active:shadow-xl transition-shadow duration-300 text-xl font-semibold uppercase focus:bg-white focus:shadow-md rounded-sm  ${
-                    type === "sell" && "  text-white bg-slate-800"
+                  className={` w-full  py-4 px-8 shadow-md hover:shadow-lg active:shadow-xl transition-shadow duration-300 text-xl font-semibold uppercase focus:shadow-md rounded-sm  ${
+                    type === "sell" && "  text-white bg-slate-600"
                   }`}
                 >
                   Sell
@@ -60,8 +81,8 @@ const CreateListing = () => {
                   id="type"
                   value="rent"
                   onClick={handleListingChange}
-                  className={` w-full bg-white py-4 px-8 shadow-md hover:shadow-lg active:shadow-xl transition-shadow duration-300 text-xl font-semibold uppercase focus:bg-white focus:shadow-md rounded-sm ${
-                    type === "rent" && "  text-white bg-slate-800"
+                  className={` w-full  py-4 px-8 shadow-md hover:shadow-lg active:shadow-xl transition-shadow duration-300 text-xl font-semibold uppercase  focus:shadow-md rounded-sm ${
+                    type === "rent" && "  text-white bg-slate-600"
                   }`}
                 >
                   Rent
@@ -132,7 +153,7 @@ const CreateListing = () => {
                   value={true}
                   onClick={handleListingChange}
                   className={` w-full bg-white shadow-md hover:shadow-lg active:shadow-xl transition-shadow duration-300 px-8 py-4 text-xl font-semibold uppercase rounded-sm ${
-                    furnished && " text-white bg-slate-700"
+                    furnished && " text-white bg-slate-600"
                   } `}
                 >
                   Yes
@@ -143,7 +164,7 @@ const CreateListing = () => {
                   value={false}
                   onClick={handleListingChange}
                   className={` w-full bg-white shadow-md hover:shadow-lg active:shadow-xl transition-shadow duration-300 px-8 py-4 text-xl font-semibold  uppercase rounded-sm ${
-                    !furnished && " text-white bg-slate-700"
+                    !furnished && " text-white bg-slate-600"
                   }`}
                 >
                   No
@@ -162,7 +183,7 @@ const CreateListing = () => {
                   value={true}
                   onClick={handleListingChange}
                   className={` w-full px-8 py-4 bg-white rounded-sm shadow-md hover:shadow-lg active:shadow-xl text-xl font-semibold  uppercase ${
-                    parkingSpot && " text-white bg-slate-700"
+                    parkingSpot && " text-white bg-slate-600"
                   }`}
                 >
                   Yes
@@ -173,7 +194,7 @@ const CreateListing = () => {
                   value={false}
                   onClick={handleListingChange}
                   className={` w-full px-8 py-4 bg-white rounded-sm shadow-md hover:shadow-lg active:shadow-xl text-xl font-semibold uppercase ${
-                    !parkingSpot && " text-white bg-slate-700"
+                    !parkingSpot && " text-white bg-slate-600"
                   } `}
                 >
                   No
@@ -222,7 +243,7 @@ const CreateListing = () => {
                   value={true}
                   onClick={handleListingChange}
                   className={` w-full px-8 py-4 bg-white rounded-sm shadow-md hover:shadow-lg active:shadow-xl text-xl font-semibold  uppercase ${
-                    offer && "bg-slate-700 text-white"
+                    offer && "bg-slate-600 text-white"
                   }`}
                 >
                   Yes
@@ -232,7 +253,7 @@ const CreateListing = () => {
                   value={false}
                   onClick={handleListingChange}
                   className={`w-full px-8 py-4 bg-white rounded-sm shadow-md hover:shadow-lg active:shadow-xl text-xl font-semibold  uppercase ${
-                    !offer && "bg-slate-700 text-white"
+                    !offer && "bg-slate-600 text-white"
                   } `}
                 >
                   No
