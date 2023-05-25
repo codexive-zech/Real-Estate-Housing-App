@@ -96,7 +96,7 @@ const Profile = () => {
             </form>
             <button
               type="submit"
-              className=" bg-blue-600 hover:bg-blue-700 active:bg-blue-800 shadow-md text-sm md:text-lg w-full rounded-md transition-colors duration-300 p-2 font-semibold uppercase text-white"
+              className=" mt-8 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 shadow-md text-sm md:text-lg w-full rounded-md transition-colors duration-300 p-2 font-semibold uppercase text-white"
             >
               <Link
                 to="/create-listing"

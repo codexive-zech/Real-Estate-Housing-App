@@ -71,7 +71,9 @@ const CreateListing = () => {
                   value="sell"
                   onClick={handleListingChange}
                   className={` w-full  py-4 px-8 shadow-md hover:shadow-lg active:shadow-xl transition-shadow duration-300 text-xl font-semibold uppercase focus:shadow-md rounded-sm  ${
-                    type === "sell" && "  text-white bg-slate-600"
+                    type === "sell"
+                      ? "  text-white bg-slate-600"
+                      : "text-black bg-white"
                   }`}
                 >
                   Sell
@@ -82,7 +84,9 @@ const CreateListing = () => {
                   value="rent"
                   onClick={handleListingChange}
                   className={` w-full  py-4 px-8 shadow-md hover:shadow-lg active:shadow-xl transition-shadow duration-300 text-xl font-semibold uppercase  focus:shadow-md rounded-sm ${
-                    type === "rent" && "  text-white bg-slate-600"
+                    type === "rent"
+                      ? "  text-white bg-slate-600"
+                      : "text-black bg-white"
                   }`}
                 >
                   Rent
@@ -152,8 +156,10 @@ const CreateListing = () => {
                   id="furnished"
                   value={true}
                   onClick={handleListingChange}
-                  className={` w-full bg-white shadow-md hover:shadow-lg active:shadow-xl transition-shadow duration-300 px-8 py-4 text-xl font-semibold uppercase rounded-sm ${
-                    furnished && " text-white bg-slate-600"
+                  className={` w-full  py-4 px-8 shadow-md hover:shadow-lg active:shadow-xl transition-shadow duration-300 text-xl font-semibold uppercase focus:shadow-md rounded-sm ${
+                    furnished
+                      ? "  text-white bg-slate-600"
+                      : "text-black bg-white"
                   } `}
                 >
                   Yes
@@ -163,8 +169,10 @@ const CreateListing = () => {
                   id="furnished"
                   value={false}
                   onClick={handleListingChange}
-                  className={` w-full bg-white shadow-md hover:shadow-lg active:shadow-xl transition-shadow duration-300 px-8 py-4 text-xl font-semibold  uppercase rounded-sm ${
-                    !furnished && " text-white bg-slate-600"
+                  className={` w-full  py-4 px-8 shadow-md hover:shadow-lg active:shadow-xl transition-shadow duration-300 text-xl font-semibold uppercase focus:shadow-md rounded-sm ${
+                    !furnished
+                      ? "  text-white bg-slate-600"
+                      : "text-black bg-white"
                   }`}
                 >
                   No
@@ -182,8 +190,10 @@ const CreateListing = () => {
                   id="parkingSpot"
                   value={true}
                   onClick={handleListingChange}
-                  className={` w-full px-8 py-4 bg-white rounded-sm shadow-md hover:shadow-lg active:shadow-xl text-xl font-semibold  uppercase ${
-                    parkingSpot && " text-white bg-slate-600"
+                  className={` w-full  py-4 px-8 shadow-md hover:shadow-lg active:shadow-xl transition-shadow duration-300 text-xl font-semibold uppercase focus:shadow-md rounded-sm ${
+                    parkingSpot
+                      ? "  text-white bg-slate-600"
+                      : "text-black bg-white"
                   }`}
                 >
                   Yes
@@ -193,8 +203,10 @@ const CreateListing = () => {
                   id="parkingSpot"
                   value={false}
                   onClick={handleListingChange}
-                  className={` w-full px-8 py-4 bg-white rounded-sm shadow-md hover:shadow-lg active:shadow-xl text-xl font-semibold uppercase ${
-                    !parkingSpot && " text-white bg-slate-600"
+                  className={` w-full  py-4 px-8 shadow-md hover:shadow-lg active:shadow-xl transition-shadow duration-300 text-xl font-semibold uppercase focus:shadow-md rounded-sm ${
+                    !parkingSpot
+                      ? "  text-white bg-slate-600"
+                      : "text-black bg-white"
                   } `}
                 >
                   No
@@ -242,8 +254,8 @@ const CreateListing = () => {
                   id="offer"
                   value={true}
                   onClick={handleListingChange}
-                  className={` w-full px-8 py-4 bg-white rounded-sm shadow-md hover:shadow-lg active:shadow-xl text-xl font-semibold  uppercase ${
-                    offer && "bg-slate-600 text-white"
+                  className={` w-full  py-4 px-8 shadow-md hover:shadow-lg active:shadow-xl transition-shadow duration-300 text-xl font-semibold uppercase focus:shadow-md rounded-sm ${
+                    offer ? "  text-white bg-slate-600" : "text-black bg-white"
                   }`}
                 >
                   Yes
@@ -252,8 +264,8 @@ const CreateListing = () => {
                   id="offer"
                   value={false}
                   onClick={handleListingChange}
-                  className={`w-full px-8 py-4 bg-white rounded-sm shadow-md hover:shadow-lg active:shadow-xl text-xl font-semibold  uppercase ${
-                    !offer && "bg-slate-600 text-white"
+                  className={`w-full  py-4 px-8 shadow-md hover:shadow-lg active:shadow-xl transition-shadow duration-300 text-xl font-semibold uppercase focus:shadow-md rounded-sm ${
+                    !offer ? "  text-white bg-slate-600" : "text-black bg-white"
                   } `}
                 >
                   No
