@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 const CreateListing = () => {
+  const [geolocationEnabled, setGeolocationEnabled] = useState(false);
   const [listingData, setListingData] = useState({
     type: "rent",
     propertyName: "",
@@ -13,6 +14,9 @@ const CreateListing = () => {
     offer: false,
     regularPrice: 0,
     discountedPrice: 0,
+    latitude: 0,
+    longitude: 0,
+    images: {},
   });
   const {
     type,
@@ -26,6 +30,9 @@ const CreateListing = () => {
     offer,
     regularPrice,
     discountedPrice,
+    latitude,
+    longitude,
+    images,
   } = listingData;
   const handleListingChange = (e) => {
     let boolean = null;
@@ -230,6 +237,43 @@ const CreateListing = () => {
                 required
               ></textarea>
             </div>
+            {/* Latitude and Longitude */}
+            {!geolocationEnabled && (
+              <div className=" mt-10">
+                <div className=" flex items-center justify-between">
+                  <div>
+                    <p className=" font-bold text-xl md:text-2xl uppercase">
+                      Home Latitude
+                    </p>
+                    <input
+                      type="number"
+                      id="latitude"
+                      min="-90"
+                      max="90"
+                      value={latitude}
+                      onChange={handleListingChange}
+                      className=" py-2 px-8 w-full bg-white text-lg text-center rounded-md border border-slate-300 outline-slate-500 my-3"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <p className=" font-bold text-xl md:text-2xl uppercase">
+                      Home Longitude
+                    </p>
+                    <input
+                      type="number"
+                      id="longitude"
+                      min="-180"
+                      max="180"
+                      value={longitude}
+                      onChange={handleListingChange}
+                      className=" py-2 px-8 w-full bg-white text-lg text-center rounded-md border border-slate-300 outline-slate-500 my-3"
+                      required
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
             {/* Description */}
             <div className=" mt-10">
               <p className=" font-bold text-xl md:text-2xl uppercase">
@@ -290,7 +334,7 @@ const CreateListing = () => {
                 />
                 {type === "rent" ? (
                   <p className=" text-xl uppercase font-semibold w-full whitespace-nowrap text-slate-700">
-                    $ / Month
+                    ₦ / Month
                   </p>
                 ) : null}
               </div>
