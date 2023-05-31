@@ -1,6 +1,21 @@
 import { useState } from "react";
+import { Spinner } from "../components";
+import { toast } from "react-toastify";
+
+import {
+  getStorage,
+  ref,
+  uploadBytesResumable,
+  getDownloadURL,
+} from "firebase/storage";
+import { v4 as uuidv4 } from "uuid";
+import { getAuth } from "firebase/auth";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { db } from "../firebase";
 
 const CreateListing = () => {
+  const auth = getAuth();
+  const [loading, setLoading] = useState(false);
   const [geolocationEnabled, setGeolocationEnabled] = useState(false);
   const [listingData, setListingData] = useState({
     type: "rent",
@@ -16,7 +31,7 @@ const CreateListing = () => {
     discountedPrice: 0,
     latitude: 0,
     longitude: 0,
-    images: {},
+    images: [],
   });
   const {
     type,
@@ -34,30 +49,116 @@ const CreateListing = () => {
     longitude,
     images,
   } = listingData;
-  const handleListingChange = (e) => {
+
+  const handleImages = (e) => {
+    const files = e.target.files;
+    if (files.length > 6) {
+      toast.error("Maximum of 6 Images are Allowed");
+      return;
+    }
+    setListingData((prevState) => ({
+      ...prevState,
+      images: [...files],
+    }));
+  }; // implemented functionality to handle number of images sent to the DB and display error
+
+  function handleListingChange(e) {
     let boolean = null;
     if (e.target.value === "true") {
       boolean = true;
     }
-
     if (e.target.value === "false") {
       boolean = false;
     }
-
+    // Files
     if (e.target.files) {
       setListingData((prevState) => ({
         ...prevState,
         images: e.target.files,
       }));
     }
-
+    // Text/Boolean/Number
     if (!e.target.files) {
       setListingData((prevState) => ({
         ...prevState,
         [e.target.id]: boolean ?? e.target.value,
       }));
     }
-  };
+  }
+
+  async function handlingListingCreation(e) {
+    e.preventDefault();
+    setLoading(true);
+    if (+discountedPrice >= +regularPrice) {
+      setLoading(false);
+      toast.error("Discounted price needs to be less than regular price");
+      return;
+    }
+    if (images.length > 6) {
+      setLoading(false);
+      toast.error("Maximum 6 images are allowed");
+      return;
+    }
+    let geolocation = {};
+    if (!geolocationEnabled) {
+      geolocation.lat = latitude;
+      geolocation.lng = longitude;
+    }
+
+    async function storeImage(image) {
+      return new Promise((resolve, reject) => {
+        const storage = getStorage();
+        const filename = `${auth.currentUser.uid}-${image.name}-${uuidv4()}`;
+        const storageRef = ref(storage, filename);
+        const uploadTask = uploadBytesResumable(storageRef, image);
+        uploadTask.on(
+          "state_changed",
+          (snapshot) => {
+            const progress =
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            console.log("Upload is " + progress + "% done");
+            switch (snapshot.state) {
+              case "paused":
+                console.log("Upload is paused");
+                break;
+              case "running":
+                console.log("Upload is running");
+                break;
+            }
+          },
+          (error) => {
+            reject(error);
+          },
+          () => {
+            getDownloadURL(uploadTask.snapshot.ref)
+              .then((downloadURL) => {
+                resolve({ image, downloadURL });
+              })
+              .catch((error) => {
+                reject(error);
+              });
+          }
+        );
+      });
+    }
+
+    try {
+      const imgUrls = await Promise.all(
+        images.map((image) => storeImage(image))
+      );
+      console.log(imgUrls);
+    } catch (error) {
+      console.error(error.message);
+      toast.error("Images not uploaded. Error: " + error.message); // Add error.message for specific error details
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  if (loading) {
+    return <Spinner />;
+  }
+
   return (
     <section className=" relative my-8">
       <div className=" w-[85vw] max-w-6xl mx-auto">
@@ -65,7 +166,7 @@ const CreateListing = () => {
           Create a Home Listing
         </h2>
         <div className="w-full lg:max-w-lg mt-6 mx-auto ">
-          <form>
+          <form onSubmit={handlingListingCreation}>
             {/* Sell and Rent Button */}
             <div className=" mt-10">
               <p className=" font-bold text-xl md:text-2xl uppercase">
@@ -370,6 +471,7 @@ const CreateListing = () => {
                 accept=".jpg,.png,.jpeg"
                 multiple
                 required
+                onChange={handleImages}
               />
             </div>
             <button
