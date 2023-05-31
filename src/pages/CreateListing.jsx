@@ -12,8 +12,10 @@ import { v4 as uuidv4 } from "uuid";
 import { getAuth } from "firebase/auth";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { db } from "../firebase";
+import { useNavigate } from "react-router-dom";
 
 const CreateListing = () => {
+  const navigate = useNavigate();
   const auth = getAuth();
   const [loading, setLoading] = useState(false);
   const [geolocationEnabled, setGeolocationEnabled] = useState(false);
@@ -132,7 +134,7 @@ const CreateListing = () => {
           () => {
             getDownloadURL(uploadTask.snapshot.ref)
               .then((downloadURL) => {
-                resolve({ image, downloadURL });
+                resolve({ name: image.name, downloadURL }); // Extracting relevant data from File object
               })
               .catch((error) => {
                 reject(error);
@@ -147,8 +149,22 @@ const CreateListing = () => {
         images.map((image) => storeImage(image))
       );
       console.log(imgUrls);
+      const listingDataCopy = {
+        ...listingData,
+        imgUrls,
+        geolocation,
+        timeStamp: serverTimestamp(),
+      };
+      delete listingDataCopy.images;
+      !listingDataCopy.offer && delete listingDataCopy.discountedPrice;
+      await addDoc(collection(db, "listings"), listingDataCopy);
+      setLoading(false);
+      navigate(
+        `category/${listingDataCopy.type}/name/${listingDataCopy.propertyName}`
+      );
+      toast.success("Property Listing Created Successfully");
     } catch (error) {
-      console.error(error.message);
+      console.error(error);
       toast.error("Images not uploaded. Error: " + error.message); // Add error.message for specific error details
     } finally {
       setLoading(false);
