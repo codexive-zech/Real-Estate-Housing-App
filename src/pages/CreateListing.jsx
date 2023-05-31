@@ -61,7 +61,7 @@ const CreateListing = () => {
     setListingData((prevState) => ({
       ...prevState,
       images: [...files],
-    }));
+    })); // handle new images been added
   }; // implemented functionality to handle number of images sent to the DB and display error
 
   function handleListingChange(e) {
@@ -95,24 +95,26 @@ const CreateListing = () => {
       setLoading(false);
       toast.error("Discounted price needs to be less than regular price");
       return;
-    }
+    } // checking to see if the discounted price is bigger than the regular price (Display an Error)
+
     if (images.length > 6) {
       setLoading(false);
       toast.error("Maximum 6 images are allowed");
       return;
-    }
+    } // checking to see if the number of images been uploaded is more than 6 (Display an Error)
+
     let geolocation = {};
     if (!geolocationEnabled) {
       geolocation.lat = latitude;
       geolocation.lng = longitude;
-    }
+    } // setting manual geolocation
 
     async function storeImage(image) {
       return new Promise((resolve, reject) => {
-        const storage = getStorage();
-        const filename = `${auth.currentUser.uid}-${image.name}-${uuidv4()}`;
-        const storageRef = ref(storage, filename);
-        const uploadTask = uploadBytesResumable(storageRef, image);
+        const storage = getStorage(); // get the storage from firebase
+        const filename = `${auth.currentUser.uid}-${image.name}-${uuidv4()}`; // setup filename
+        const storageRef = ref(storage, filename); // the storage-reference has both the storage gotten and the filename
+        const uploadTask = uploadBytesResumable(storageRef, image); // uploading each image into he firebase storage
         uploadTask.on(
           "state_changed",
           (snapshot) => {
@@ -127,18 +129,18 @@ const CreateListing = () => {
                 console.log("Upload is running");
                 break;
             }
-          },
+          }, // uploading process
           (error) => {
             reject(error);
-          },
+          }, // reject the promise and display an msg when they is an error
           () => {
             getDownloadURL(uploadTask.snapshot.ref)
               .then((downloadURL) => {
                 resolve({ name: image.name, downloadURL }); // Extracting relevant data from File object
-              })
+              }) // provide a downloadable url for each image been upload
               .catch((error) => {
                 reject(error);
-              });
+              }); // reject the promise and display an msg when they is an error
           }
         );
       });
@@ -147,21 +149,23 @@ const CreateListing = () => {
     try {
       const imgUrls = await Promise.all(
         images.map((image) => storeImage(image))
-      );
-      console.log(imgUrls);
+      ); // iterate over all the images to be uploaded
+
       const listingDataCopy = {
         ...listingData,
         imgUrls,
         geolocation,
         timeStamp: serverTimestamp(),
-      };
-      delete listingDataCopy.images;
-      !listingDataCopy.offer && delete listingDataCopy.discountedPrice;
-      await addDoc(collection(db, "listings"), listingDataCopy);
+      }; // create a new copy for all the data provided in the listing form before add it to the DB
+
+      delete listingDataCopy.images; // deleting the images been added from the collection since it is already inside of the storage with a URL
+
+      !listingDataCopy.offer && delete listingDataCopy.discountedPrice; // deleting the discount price field when they is no offer provided in listing
+      await addDoc(collection(db, "listings"), listingDataCopy); // creating a new collection for the property listing
       setLoading(false);
       navigate(
         `category/${listingDataCopy.type}/name/${listingDataCopy.propertyName}`
-      );
+      ); // redirect to this url when listing is created successfully
       toast.success("Property Listing Created Successfully");
     } catch (error) {
       console.error(error);
@@ -401,7 +405,7 @@ const CreateListing = () => {
                 id="description"
                 value={description}
                 minLength="3"
-                maxLength="50"
+                maxLength="150"
                 onChange={handleListingChange}
                 placeholder="Description"
                 className=" py-3 px-5 w-full bg-white text-lg rounded-md border border-slate-300 outline-slate-500 my-3"
