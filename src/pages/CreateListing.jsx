@@ -155,7 +155,8 @@ const CreateListing = () => {
         ...listingData,
         imgUrls,
         geolocation,
-        timeStamp: serverTimestamp(),
+        timestamp: serverTimestamp(),
+        userRef: auth.currentUser.uid, // setting a unique key ref to fetch listing for each user
       }; // create a new copy for all the data provided in the listing form before add it to the DB
 
       delete listingDataCopy.images; // deleting the images been added from the collection since it is already inside of the storage with a URL

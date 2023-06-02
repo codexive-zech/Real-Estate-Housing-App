@@ -1,15 +1,26 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { getAuth, updateProfile } from "firebase/auth";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { db } from "../firebase";
-import { doc, updateDoc } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDocs,
+  orderBy,
+  query,
+  updateDoc,
+  where,
+} from "firebase/firestore";
 import { FcHome } from "react-icons/fc";
+import { ListingItem } from "../components";
 
 const Profile = () => {
   const auth = getAuth();
   const navigate = useNavigate();
   const [changeUserInfo, setChangeUserInfo] = useState(false);
+  const [listings, setListings] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [loggedUser, setLoggedUser] = useState({
     name: auth.currentUser.displayName,
     email: auth.currentUser.email,
@@ -47,6 +58,31 @@ const Profile = () => {
     navigate("/");
     toast.success("Logged Out Successfully");
   };
+
+  const fetchUserListings = async () => {
+    setIsLoading(true);
+    const listingRef = collection(db, "listings"); // get a reference address for the listings collection
+    const dataQuery = query(
+      listingRef,
+      where("userRef", "==", auth.currentUser.uid), // based on the userRef property-value in the collection
+      orderBy("timestamp", "desc") // based on the timestamp the order should be new to old
+    ); // make a GET query to the firebase collection
+    const querySnapshot = await getDocs(dataQuery); // getting a snap shot of the GET query request
+    let listings = [];
+    querySnapshot.forEach((listingDoc) => {
+      return listings.push({
+        id: listingDoc.id,
+        data: listingDoc.data(),
+      }); // add(push) the single listing id and the value inside of each listing
+    }); // iterate over all the listings collection gotten from that specific user
+    setListings(listings);
+    setIsLoading(false);
+  };
+
+  useEffect(() => {
+    fetchUserListings();
+  }, [auth.currentUser.uid]);
+
   return (
     <>
       <section className=" relative">
@@ -106,6 +142,29 @@ const Profile = () => {
                 Sell or Rent Your House
               </Link>
             </button>
+          </div>
+        </div>
+        {/* Listings Goes Here */}
+        <div className=" w-[90vw] max-w-6xl mx-auto ">
+          <div className=" mt-12">
+            {!isLoading && listings.length > 0 && (
+              <>
+                <h2 className=" text-xl lg:text-2xl font-semibold text-center">
+                  My Property Listings
+                </h2>
+                <ul>
+                  {listings.map((listing) => {
+                    return (
+                      <ListingItem
+                        key={listing.id}
+                        id={listing.id}
+                        listing={listing.data}
+                      />
+                    );
+                  })}
+                </ul>
+              </>
+            )}
           </div>
         </div>
       </section>
