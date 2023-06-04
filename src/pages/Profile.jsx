@@ -13,7 +13,7 @@ import {
   where,
 } from "firebase/firestore";
 import { FcHome } from "react-icons/fc";
-import { ListingItem } from "../components";
+import { ListingItem, Spinner } from "../components";
 
 const Profile = () => {
   const auth = getAuth();
@@ -90,7 +90,7 @@ const Profile = () => {
           <h1 className=" text-2xl lg:text-4xl font-semibold uppercase text-center mt-8">
             My Profile
           </h1>
-          <div className=" w-[50%] mt-6">
+          <div className=" lg:w-[50%] mt-6">
             <form>
               <input
                 type="text"
@@ -152,14 +152,10 @@ const Profile = () => {
                 <h2 className=" text-xl lg:text-2xl font-semibold text-center">
                   My Property Listings
                 </h2>
-                <ul>
+                <ul className=" grid md:grid-cols-2 lg:grid-cols-3 gap-4 my-8">
                   {listings.map((listing) => {
                     return (
-                      <ListingItem
-                        key={listing.id}
-                        id={listing.id}
-                        listing={listing.data}
-                      />
+                      <ListingItem key={listing.id} listing={listing.data} />
                     );
                   })}
                 </ul>
