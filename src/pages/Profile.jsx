@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import { db } from "../firebase";
 import {
   collection,
+  deleteDoc,
   doc,
   getDocs,
   orderBy,
@@ -13,7 +14,7 @@ import {
   where,
 } from "firebase/firestore";
 import { FcHome } from "react-icons/fc";
-import { ListingItem, Spinner } from "../components";
+import { ListingItem } from "../components";
 
 const Profile = () => {
   const auth = getAuth();
@@ -82,6 +83,22 @@ const Profile = () => {
   useEffect(() => {
     fetchUserListings();
   }, [auth.currentUser.uid]);
+
+  const onEdit = (listingId) => {
+    navigate(`/edit-listing/${listingId}`); // redirect to an edit page so as to edit listings
+  };
+
+  const onDelete = async (listingId) => {
+    if (window.confirm("Are You Sure You Want To Delete")) {
+      const listingRef = doc(db, "listings", listingId); // get a reference address for the listings
+      await deleteDoc(listingRef); // deleting the listing from the collection
+      const updatedListings = listings.filter(
+        (listing) => listing.id !== listingId
+      ); // filtering through to get the listing ID's that are not removed yet
+      setListings(updatedListings); // updating/setting Listing state value
+      toast.success("Successfully Deleted Listing"); // display a toast message
+    }
+  };
 
   return (
     <>
@@ -152,10 +169,16 @@ const Profile = () => {
                 <h2 className=" text-xl lg:text-2xl font-semibold text-center">
                   My Property Listings
                 </h2>
-                <ul className=" grid md:grid-cols-2 lg:grid-cols-3 gap-4 my-8">
+                <ul className=" grid md:grid-cols-2 lg:grid-cols-4 gap-4 my-8">
                   {listings.map((listing) => {
                     return (
-                      <ListingItem key={listing.id} listing={listing.data} />
+                      <ListingItem
+                        key={listing.id}
+                        listing={listing.data}
+                        id={listing.id}
+                        onEdit={() => onEdit(listing.id)}
+                        onDelete={() => onDelete(listing.id)}
+                      />
                     );
                   })}
                 </ul>

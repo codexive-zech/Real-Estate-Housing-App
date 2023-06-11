@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Spinner } from "../components";
 import { toast } from "react-toastify";
 
@@ -10,14 +10,23 @@ import {
 } from "firebase/storage";
 import { v4 as uuidv4 } from "uuid";
 import { getAuth } from "firebase/auth";
-import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDoc,
+  serverTimestamp,
+  updateDoc,
+} from "firebase/firestore";
 import { db } from "../firebase";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
-const CreateListing = () => {
+const EditListing = () => {
+  const { listingId } = useParams();
   const navigate = useNavigate();
   const auth = getAuth();
   const [loading, setLoading] = useState(false);
+  const [listing, setListing] = useState(null);
+
   const [geolocationEnabled, setGeolocationEnabled] = useState(false);
   const [listingData, setListingData] = useState({
     type: "rent",
@@ -51,6 +60,36 @@ const CreateListing = () => {
     longitude,
     images,
   } = listingData;
+
+  const getSingleListingData = async () => {
+    setLoading(true);
+    try {
+      const listingRef = doc(db, "listings", listingId); // getting the document of each listing in the collection
+      const listingSnapShot = await getDoc(listingRef); // returning back a promise with the listing data
+      if (listingSnapShot.exists()) {
+        setListing(listingSnapShot.data()); // update listing state to promise data received
+        setListingData({ ...listingSnapShot.data() }); // update listing data object state to promise data received
+        setLoading(false);
+      } else {
+        navigate("/");
+        toast.error("Listing Does Not Exist");
+      }
+    } catch (error) {
+      setLoading(false);
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if (listing && listing.userRef !== auth.currentUser.uid) {
+      toast.error("You Can't Edit This Listing");
+      navigate("/");
+    }
+  }, [auth.currentUser.uid, listing, navigate]);
+
+  useEffect(() => {
+    getSingleListingData();
+  }, [listingId]);
 
   const handleImages = (e) => {
     const files = e.target.files;
@@ -162,10 +201,12 @@ const CreateListing = () => {
       delete listingDataCopy.images; // deleting the images been added from the collection since it is already inside of the storage with a URL
 
       !listingDataCopy.offer && delete listingDataCopy.discountedPrice; // deleting the discount price field when they is no offer provided in listing
-      const docRef = await addDoc(collection(db, "listings"), listingDataCopy); // creating a new collection for the property listing
+      const docRef = doc(db, "listings", listingId); // getting the document of each listing in the collection
+
+      await updateDoc(docRef, listingDataCopy); // update listing document for the property listing
       setLoading(false);
-      navigate(`category/${listingDataCopy.type}/${docRef.id}`); // redirect to this url when listing is created successfully
-      toast.success("Property Listing Created Successfully");
+      navigate(`category/${listingDataCopy.type}/${docRef.id}`); // redirect to this url when listing is updated successfully
+      toast.success("Property Listing Edited Successfully");
     } catch (error) {
       console.error(error);
       toast.error("Images not uploaded. Error: " + error.message); // Add error.message for specific error details
@@ -182,7 +223,7 @@ const CreateListing = () => {
     <section className=" relative my-8">
       <div className=" w-[85vw] max-w-6xl mx-auto">
         <h2 className=" text-center text-2xl lg:text-3xl uppercase font-bold mt-12">
-          Create a Home Listing
+          Edit Home Listing
         </h2>
         <div className="w-full lg:max-w-lg mt-6 mx-auto ">
           <form onSubmit={handlingListingCreation}>
@@ -497,7 +538,7 @@ const CreateListing = () => {
               type="submit"
               className=" w-full py-2 px-6 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 rounded-md mt-10 text-xl uppercase text-white font-bold focus:bg-blue-600 shadow-md mb-3"
             >
-              Submit Listing
+              Edit Listing
             </button>
           </form>
         </div>
@@ -506,4 +547,4 @@ const CreateListing = () => {
   );
 };
 
-export default CreateListing;
+export default EditListing;

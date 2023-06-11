@@ -11,6 +11,7 @@ const SignUp = lazy(() => import("./pages/SignUp"));
 const SignIn = lazy(() => import("./pages/SignIn"));
 const ForgetPassword = lazy(() => import("./pages/ForgetPassword"));
 const CreateListing = lazy(() => import("./pages/CreateListing"));
+const EditListing = lazy(() => import("./pages/EditListing"));
 
 function App() {
   return (
@@ -29,6 +30,12 @@ function App() {
             <Route path="/forgot-password" element={<ForgetPassword />} />
             <Route path="/create-listing" element={<PrivateRoute />}>
               <Route path="/create-listing" element={<CreateListing />} />
+            </Route>
+            <Route path="/edit-listing" element={<EditListing />}>
+              <Route
+                path="/edit-listing/:listingId"
+                element={<EditListing />}
+              />
             </Route>
           </Routes>
         </Suspense>
