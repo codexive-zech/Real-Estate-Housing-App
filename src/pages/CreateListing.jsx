@@ -164,7 +164,7 @@ const CreateListing = () => {
       !listingDataCopy.offer && delete listingDataCopy.discountedPrice; // deleting the discount price field when they is no offer provided in listing
       const docRef = await addDoc(collection(db, "listings"), listingDataCopy); // creating a new collection for the property listing
       setLoading(false);
-      navigate(`category/${listingDataCopy.type}/${docRef.id}`); // redirect to this url when listing is created successfully
+      navigate(`/category/${listingDataCopy.type}/${docRef.id}`); // redirect to this url when listing is created successfully
       toast.success("Property Listing Created Successfully");
     } catch (error) {
       console.error(error);

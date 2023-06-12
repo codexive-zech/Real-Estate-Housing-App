@@ -8,7 +8,7 @@ const ListingItem = ({ listing, id, onEdit, onDelete }) => {
   return (
     <>
       <li className=" relative bg-white shadow-sm hover:shadow-md transition-shadow duration-300 mb-5 rounded-md overflow-hidden">
-        <Link to={`category/${listing.type}/${id}`}>
+        <Link to={`/category/${listing.type}/${id}`}>
           <img
             src={listing.imgUrls[0]?.downloadURL || imageNotFound}
             alt={`${listing.propertyName}`}
