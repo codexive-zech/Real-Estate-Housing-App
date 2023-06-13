@@ -18,33 +18,34 @@ const SingleListing = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [listing, setListing] = useState(null);
   const [showAlert, setShowAlert] = useState(false);
-  SwiperCore.use([Navigation, Pagination, Autoplay]);
+  SwiperCore.use([Navigation, Pagination, Autoplay]); // initialize the needed functionality of the swiper
+
   const getSingleListing = async () => {
     try {
-      setIsLoading(true);
-      const singleListingRef = doc(db, "listings", listingId);
-      const singleListingSnapshot = await getDoc(singleListingRef);
+      setIsLoading(true); // change the loading state
+      const singleListingRef = doc(db, "listings", listingId); // getting the document (Single Listing) of each listing in the collection
+      const singleListingSnapshot = await getDoc(singleListingRef); // returning back a promise with the listing data
       if (singleListingSnapshot.exists()) {
-        setListing(singleListingSnapshot.data());
-        setIsLoading(false);
+        setListing(singleListingSnapshot.data()); // update listing state to promise data received
+        setIsLoading(false); // change the loading state
       }
     } catch (error) {
       setIsLoading(false);
       console.log(error);
     }
-  };
+  }; // getting single listing as doc from the collection
 
   useEffect(() => {
     getSingleListing();
   }, [listingId]);
 
   const handleLinkCopyToClipboard = () => {
-    setShowAlert(true);
-    navigator.clipboard.writeText(window.location.href);
+    setShowAlert(true); // change the alert state
+    navigator.clipboard.writeText(window.location.href); // copy the URL into the clipboard
     setTimeout(() => {
-      setShowAlert(false);
-    }, 3000);
-  };
+      setShowAlert(false); // change alert state
+    }, 3000); // set a 3 sec timeout
+  }; // handling copying of url to clipboard
 
   if (isLoading) {
     return <Spinner />;

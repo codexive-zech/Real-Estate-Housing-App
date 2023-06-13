@@ -10,13 +10,7 @@ import {
 } from "firebase/storage";
 import { v4 as uuidv4 } from "uuid";
 import { getAuth } from "firebase/auth";
-import {
-  collection,
-  doc,
-  getDoc,
-  serverTimestamp,
-  updateDoc,
-} from "firebase/firestore";
+import { doc, getDoc, serverTimestamp, updateDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -62,8 +56,8 @@ const EditListing = () => {
   } = listingData;
 
   const getSingleListingData = async () => {
-    setLoading(true);
     try {
+      setLoading(true);
       const listingRef = doc(db, "listings", listingId); // getting the document of each listing in the collection
       const listingSnapShot = await getDoc(listingRef); // returning back a promise with the listing data
       if (listingSnapShot.exists()) {
@@ -84,7 +78,7 @@ const EditListing = () => {
     if (listing && listing.userRef !== auth.currentUser.uid) {
       toast.error("You Can't Edit This Listing");
       navigate("/");
-    }
+    } // redirect to the home page when the listing userRef id (user-id) is not the same created user id
   }, [auth.currentUser.uid, listing, navigate]);
 
   useEffect(() => {
