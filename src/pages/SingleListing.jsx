@@ -2,7 +2,7 @@ import { doc, getDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { db } from "../firebase";
-import { Spinner } from "../components";
+import { Contact, Spinner } from "../components";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, {
   EffectFade,
@@ -13,12 +13,15 @@ import SwiperCore, {
 import "swiper/css/bundle";
 import { FaShare, FaBed, FaBath, FaParking, FaChair } from "react-icons/fa";
 import { MdLocationPin } from "react-icons/md";
+import { getAuth } from "firebase/auth";
 
 const SingleListing = () => {
+  const auth = getAuth();
   const { categoryType, listingId } = useParams();
   const [isLoading, setIsLoading] = useState(false);
   const [listing, setListing] = useState(null);
   const [showAlert, setShowAlert] = useState(false);
+  const [showLandlord, setShowLandlord] = useState(false);
   SwiperCore.use([Navigation, Pagination, Autoplay]); // initialize the needed functionality of the swiper
 
   const getSingleListing = async () => {
@@ -145,6 +148,17 @@ const SingleListing = () => {
                   {listing.furnished ? "Furnished" : "Not Furnished"}
                 </li>
               </ul>
+              {listing.userRef !== auth.currentUser.uid && !showLandlord && (
+                <button
+                  className=" w-full px-7 py-3 text-white bg-blue-700 hover:bg-blue-800 shadow-sm hover:shadow-md rounded-md mt-6 text-lg lg:text-xl font-semibold capitalize"
+                  onClick={() => setShowLandlord(true)}
+                >
+                  Contact LandLord
+                </button>
+              )}
+              {showLandlord ? (
+                <Contact userRef={listing.userRef} listing={listing} />
+              ) : null}
             </div>
             <div>hujvh</div>
           </div>
