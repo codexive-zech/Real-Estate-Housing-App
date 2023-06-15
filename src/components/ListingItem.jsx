@@ -24,7 +24,7 @@ const ListingItem = ({ listing, id, onEdit, onDelete }) => {
           <div className=" w-full p-4">
             <div className=" flex items-center space-x-4">
               <MdLocationOn className=" text-green-600 text-lg md:text-2xl  w-6 h-6" />
-              <p className=" font-semibold truncate text-lg text-gray-600">
+              <p className=" font-semibold truncate text-lg text-gray-600 capitalize">
                 {listing.address}
               </p>
             </div>
@@ -45,10 +45,10 @@ const ListingItem = ({ listing, id, onEdit, onDelete }) => {
             <div className="flex items-center justify-between mt-3">
               {/* bed and bath */}
               <div className=" flex items-center space-x-6 font-bold">
-                <p className=" font-bold text-sm">
+                <p className=" font-bold text-base lg:text-sm">
                   {listing.bedrooms > 1 ? `${listing.bedrooms} Beds` : "1 Bed"}
                 </p>
-                <p className=" font-bold text-sm">
+                <p className=" font-bold text-base lg:text-sm">
                   {listing.bathrooms > 1
                     ? `${listing.bathrooms} Baths`
                     : "1 Bath"}

@@ -199,7 +199,7 @@ const EditListing = () => {
 
       await updateDoc(docRef, listingDataCopy); // update listing document for the property listing
       setLoading(false);
-      navigate(`category/${listingDataCopy.type}/${docRef.id}`); // redirect to this url when listing is updated successfully
+      navigate(`/category/${listingDataCopy.type}/${docRef.id}`); // redirect to this url when listing is updated successfully
       toast.success("Property Listing Edited Successfully");
     } catch (error) {
       console.error(error);
@@ -264,7 +264,7 @@ const EditListing = () => {
                 type="text"
                 id="propertyName"
                 minLength={2}
-                maxLength={30}
+                maxLength={50}
                 value={propertyName}
                 onChange={handleListingChange}
                 placeholder="Property Name"
@@ -395,7 +395,7 @@ const EditListing = () => {
             {/* Latitude and Longitude */}
             {!geolocationEnabled && (
               <div className=" mt-10">
-                <div className=" flex items-center justify-between">
+                <div className=" flex items-center justify-between gap-12">
                   <div>
                     <p className=" font-bold text-xl md:text-2xl uppercase">
                       Home Latitude
@@ -403,8 +403,6 @@ const EditListing = () => {
                     <input
                       type="number"
                       id="latitude"
-                      min="-90"
-                      max="90"
                       value={latitude}
                       onChange={handleListingChange}
                       className=" py-2 px-8 w-full bg-white text-lg text-center rounded-md border border-slate-300 outline-slate-500 my-3"
@@ -418,8 +416,6 @@ const EditListing = () => {
                     <input
                       type="number"
                       id="longitude"
-                      min="-180"
-                      max="180"
                       value={longitude}
                       onChange={handleListingChange}
                       className=" py-2 px-8 w-full bg-white text-lg text-center rounded-md border border-slate-300 outline-slate-500 my-3"

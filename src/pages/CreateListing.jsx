@@ -229,7 +229,7 @@ const CreateListing = () => {
                 type="text"
                 id="propertyName"
                 minLength={2}
-                maxLength={30}
+                maxLength={50}
                 value={propertyName}
                 onChange={handleListingChange}
                 placeholder="Property Name"
@@ -360,7 +360,7 @@ const CreateListing = () => {
             {/* Latitude and Longitude */}
             {!geolocationEnabled && (
               <div className=" mt-10">
-                <div className=" flex items-center justify-between">
+                <div className=" flex items-center justify-between gap-12">
                   <div>
                     <p className=" font-bold text-xl md:text-2xl uppercase">
                       Home Latitude
@@ -368,8 +368,6 @@ const CreateListing = () => {
                     <input
                       type="number"
                       id="latitude"
-                      min="-90"
-                      max="90"
                       value={latitude}
                       onChange={handleListingChange}
                       className=" py-2 px-8 w-full bg-white text-lg text-center rounded-md border border-slate-300 outline-slate-500 my-3"
@@ -383,8 +381,6 @@ const CreateListing = () => {
                     <input
                       type="number"
                       id="longitude"
-                      min="-180"
-                      max="180"
                       value={longitude}
                       onChange={handleListingChange}
                       className=" py-2 px-8 w-full bg-white text-lg text-center rounded-md border border-slate-300 outline-slate-500 my-3"
@@ -404,7 +400,7 @@ const CreateListing = () => {
                 id="description"
                 value={description}
                 minLength="3"
-                maxLength="150"
+                maxLength="750"
                 onChange={handleListingChange}
                 placeholder="Description"
                 className=" py-3 px-5 w-full bg-white text-lg rounded-md border border-slate-300 outline-slate-500 my-3"
