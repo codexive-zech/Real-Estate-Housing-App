@@ -15,26 +15,26 @@ import { useNavigate } from "react-router-dom";
 const Slider = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [listings, setListing] = useState(null);
-  SwiperCore.use([Navigation, Autoplay, Pagination]);
+  SwiperCore.use([Navigation, Autoplay, Pagination]); // initialize the core properties of Swiper
   const navigate = useNavigate();
 
   const fetchListingPropertyLimit = async () => {
     try {
-      setIsLoading(true);
-      const listingRef = collection(db, "listings");
+      setIsLoading(true); // change the loading state since it's fetching
+      const listingRef = collection(db, "listings"); // get a reference for the listings collection
       const listingQuery = query(
         listingRef,
         orderBy("timestamp", "desc"),
         limit(4)
-      );
-      const listingSnapShot = await getDocs(listingQuery);
+      ); // make a query to the firebase store getting just the last 4 added listings
+      const listingSnapShot = await getDocs(listingQuery); // make an api request to fetch the listing
       let listings = [];
       listingSnapShot.forEach((listingDoc) => {
         listings.push({
           id: listingDoc.id,
           data: listingDoc.data(),
         });
-      });
+      }); // iterate over the listings gotten from making a api call
       setListing(listings);
       setIsLoading(false);
     } catch (error) {
@@ -58,6 +58,7 @@ const Slider = () => {
   return (
     <>
       {listings !== null && (
+        // Swiper
         <Swiper
           pagination={{ type: "progressbar" }}
           navigation

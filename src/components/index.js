@@ -5,6 +5,9 @@ import Spinner from "./Spinner";
 import ListingItem from "./ListingItem";
 import Contact from "./Contact";
 import Slider from "./Slider";
+import HomeOffer from "./HomeOffer";
+import RentPlace from "./RentPlace";
+import SellPlace from "./SellPlace";
 export {
   Header,
   OAuthButton,
@@ -13,4 +16,7 @@ export {
   ListingItem,
   Contact,
   Slider,
+  HomeOffer,
+  RentPlace,
+  SellPlace,
 };
