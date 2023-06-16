@@ -62,7 +62,13 @@ const HomeOffer = () => {
             </Link>
             <ul className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 my-3 ">
               {offerListings.map((listing) => {
-                return <ListingItem key={listing.id} listing={listing.data} />;
+                return (
+                  <ListingItem
+                    key={listing.id}
+                    listing={listing.data}
+                    id={listing.id}
+                  />
+                );
               })}
             </ul>
           </div>

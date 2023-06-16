@@ -60,14 +60,20 @@ const RentPlace = () => {
               Place For Rent
             </h3>
             <Link
-              to="/rent"
+              to="/category/rent"
               className=" text-blue-600 hover:text-blue-800 transition-colors duration-300 font-medium text-sm md:text-base"
             >
               Show More Places For Rent
             </Link>
             <ul className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 my-3 ">
               {rentListings.map((listing) => {
-                return <ListingItem key={listing.id} listing={listing.data} />;
+                return (
+                  <ListingItem
+                    key={listing.id}
+                    listing={listing.data}
+                    id={listing.id}
+                  />
+                );
               })}
             </ul>
           </div>

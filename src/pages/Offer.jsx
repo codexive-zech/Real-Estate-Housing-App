@@ -4,6 +4,7 @@ import {
   limit,
   orderBy,
   query,
+  startAfter,
   where,
 } from "firebase/firestore";
 import { useEffect } from "react";
@@ -15,6 +16,7 @@ import { ListingItem } from "../components";
 const Offer = () => {
   const [offerListings, setOfferListings] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [lastFetchedListing, setLastFetchedListing] = useState(null);
 
   const fetchOfferListings = async () => {
     try {
@@ -27,6 +29,9 @@ const Offer = () => {
         limit(8)
       );
       const offerListingsSnapShot = await getDocs(offerListingsQuery);
+      const lastVisibleListing =
+        offerListingsSnapShot.docs[offerListingsSnapShot.docs.length - 1];
+      setLastFetchedListing(lastVisibleListing);
       let listings = [];
       offerListingsSnapShot.forEach((listingsDoc) => {
         return listings.push({
@@ -45,6 +50,36 @@ const Offer = () => {
   useEffect(() => {
     fetchOfferListings();
   }, []);
+
+  const fetchMoreListings = async () => {
+    try {
+      setLoading(true);
+      const offerListingsRef = collection(db, "listings");
+      const offerListingsQuery = query(
+        offerListingsRef,
+        where("offer", "==", true),
+        orderBy("timestamp", "desc"),
+        limit(4),
+        startAfter(lastFetchedListing)
+      );
+      const offerListingsSnapShot = await getDocs(offerListingsQuery);
+      const lastVisibleListing =
+        offerListingsSnapShot.docs[offerListingsSnapShot.docs.length - 1];
+      setLastFetchedListing(lastVisibleListing);
+      let listings = [];
+      offerListingsSnapShot.forEach((listingsDoc) => {
+        return listings.push({
+          id: listingsDoc.id,
+          data: listingsDoc.data(),
+        });
+      });
+      setOfferListings((prevState) => [...prevState, ...listings]);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
 
   if (loading) {
     return <Spinner />;
@@ -72,17 +107,28 @@ const Offer = () => {
             </h1>
             <ul className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 my-3 ">
               {offerListings.map((listing) => {
-                return <ListingItem key={listing.id} listing={listing.data} />;
+                return (
+                  <ListingItem
+                    key={listing.id}
+                    listing={listing.data}
+                    id={listing.id}
+                  />
+                );
               })}
             </ul>
           </div>
         </>
       )}
-      <div className=" flex items-center justify-center">
-        <button className=" px-5 py-2 bg-blue-600 hover:bg-blue-400 focus:bg-blue-400 transition-colors duration-300 text-white focus:text-white rounded-md font-medium">
-          Load More
-        </button>
-      </div>
+      {lastFetchedListing && (
+        <div className=" flex items-center justify-center my-8">
+          <button
+            className=" px-5 py-2 bg-blue-600 active:bg-blue-700 hover:bg-blue-400 focus:bg-blue-400 transition-colors duration-300 text-white focus:text-white rounded-md font-medium"
+            onClick={fetchMoreListings}
+          >
+            Load More
+          </button>
+        </div>
+      )}
     </>
   );
 };

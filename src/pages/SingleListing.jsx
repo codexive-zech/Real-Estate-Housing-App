@@ -18,7 +18,7 @@ import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 
 const SingleListing = () => {
   const auth = getAuth();
-  const { categoryType, listingId } = useParams();
+  const { listingId } = useParams();
   const [isLoading, setIsLoading] = useState(false);
   const [listing, setListing] = useState(null);
   const [showAlert, setShowAlert] = useState(false);

@@ -13,6 +13,7 @@ const SignIn = lazy(() => import("./pages/SignIn"));
 const ForgetPassword = lazy(() => import("./pages/ForgetPassword"));
 const CreateListing = lazy(() => import("./pages/CreateListing"));
 const EditListing = lazy(() => import("./pages/EditListing"));
+const Category = lazy(() => import("./pages/Category"));
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
               <Route path="/profile" element={<Profile />} />
             </Route>
             <Route path="/offer" element={<Offer />} />
+            <Route path="/category/:categoryName" element={<Category />} />
             <Route path="/sign-in" element={<SignIn />} />
             <Route path="/sign-up" element={<SignUp />} />
             <Route path="/forgot-password" element={<ForgetPassword />} />

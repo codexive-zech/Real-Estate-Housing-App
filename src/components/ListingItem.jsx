@@ -1,14 +1,15 @@
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { MdEdit, MdLocationOn } from "react-icons/md";
 import Moment from "react-moment";
 import imageNotFound from "../assets/image-not-found.png";
 import { FaTrash } from "react-icons/fa";
 
 const ListingItem = ({ listing, id, onEdit, onDelete }) => {
+  const navigate = useNavigate();
   return (
     <>
       <li className=" relative bg-white shadow-sm hover:shadow-md transition-shadow duration-300 mb-5 rounded-md overflow-hidden">
-        <Link to={`/category/${listing.type}/${id}`}>
+        <div onClick={() => navigate(`/category/${listing.type}/${id}`)}>
           <img
             src={listing.imgUrls[0]?.downloadURL || imageNotFound}
             alt={`${listing.propertyName}`}
@@ -56,7 +57,7 @@ const ListingItem = ({ listing, id, onEdit, onDelete }) => {
               </div>
             </div>
           </div>
-        </Link>
+        </div>
         {onEdit && (
           <MdEdit
             className=" absolute bottom-4 right-10 flex items-center text-green-500 cursor-pointer"
