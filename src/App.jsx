@@ -3,7 +3,6 @@ import { Header, PrivateRoute, Spinner } from "./components";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { lazy, Suspense } from "react";
-import SingleListing from "./pages/SingleListing";
 
 const Home = lazy(() => import("./pages/Home"));
 const Profile = lazy(() => import("./pages/Profile"));
@@ -14,6 +13,7 @@ const ForgetPassword = lazy(() => import("./pages/ForgetPassword"));
 const CreateListing = lazy(() => import("./pages/CreateListing"));
 const EditListing = lazy(() => import("./pages/EditListing"));
 const Category = lazy(() => import("./pages/Category"));
+const SingleListing = lazy(() => import("./pages/SingleListing"));
 
 function App() {
   return (
@@ -34,12 +34,10 @@ function App() {
             <Route path="/create-listing" element={<PrivateRoute />}>
               <Route path="/create-listing" element={<CreateListing />} />
             </Route>
-            <Route path="/category" element={<PrivateRoute />}>
-              <Route
-                path="/category/:categoryType/:listingId"
-                element={<SingleListing />}
-              />
-            </Route>
+            <Route
+              path="/category/:categoryType/:listingId"
+              element={<SingleListing />}
+            />
             <Route path="/edit-listing" element={<EditListing />}>
               <Route
                 path="/edit-listing/:listingId"

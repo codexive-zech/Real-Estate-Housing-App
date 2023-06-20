@@ -146,14 +146,15 @@ const SingleListing = () => {
                   {listing.furnished ? "Furnished" : "Not Furnished"}
                 </li>
               </ul>
-              {listing.userRef !== auth.currentUser.uid && !showLandlord && (
-                <button
-                  className=" w-full px-7 py-3 text-white bg-blue-700 hover:bg-blue-800 shadow-sm hover:shadow-md rounded-md mt-6 text-lg lg:text-xl font-semibold capitalize"
-                  onClick={() => setShowLandlord(true)}
-                >
-                  Contact LandLord
-                </button>
-              )}
+              {listing.userRef !== (auth.currentUser?.uid || null) &&
+                !showLandlord && (
+                  <button
+                    className=" w-full px-7 py-3 text-white bg-blue-700 hover:bg-blue-800 shadow-sm hover:shadow-md rounded-md mt-6 text-lg lg:text-xl font-semibold capitalize"
+                    onClick={() => setShowLandlord(true)}
+                  >
+                    Contact LandLord
+                  </button>
+                )}
               {showLandlord ? (
                 <Contact userRef={listing.userRef} listing={listing} />
               ) : null}

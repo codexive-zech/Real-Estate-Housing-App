@@ -89,15 +89,13 @@ const Profile = () => {
   };
 
   const onDelete = async (listingId) => {
-    if (window.confirm("Are You Sure You Want To Delete")) {
-      const listingRef = doc(db, "listings", listingId); // get a reference address for the listings
-      await deleteDoc(listingRef); // deleting the listing from the collection
-      const updatedListings = listings.filter(
-        (listing) => listing.id !== listingId
-      ); // filtering through to get the listing ID's that are not removed yet
-      setListings(updatedListings); // updating/setting Listing state value
-      toast.success("Successfully Deleted Listing"); // display a toast message
-    }
+    const listingRef = doc(db, "listings", listingId); // get a reference address for the listings
+    await deleteDoc(listingRef); // deleting the listing from the collection
+    const updatedListings = listings.filter(
+      (listing) => listing.id !== listingId
+    ); // filtering through to get the listing ID's that are not removed yet
+    setListings(updatedListings); // updating/setting Listing state value
+    toast.success("Successfully Deleted Listing"); // display a toast message
   };
 
   return (

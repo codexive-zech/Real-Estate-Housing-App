@@ -18,12 +18,12 @@ const CreateListing = () => {
   const navigate = useNavigate();
   const auth = getAuth();
   const [loading, setLoading] = useState(false);
-  const [geolocationEnabled, setGeolocationEnabled] = useState(false);
+  const [geolocationEnabled, setGeolocationEnabled] = useState(true);
   const [listingData, setListingData] = useState({
     type: "rent",
     propertyName: "",
-    bedrooms: 5,
-    bathrooms: 3,
+    bedrooms: 1,
+    bathrooms: 1,
     furnished: false,
     parkingSpot: false,
     address: "",
@@ -31,8 +31,8 @@ const CreateListing = () => {
     offer: false,
     regularPrice: 0,
     discountedPrice: 0,
-    latitude: 0,
-    longitude: 0,
+    latitude: 6.458985, // Lekki Default
+    longitude: 3.601521, // Lekki Default
     images: [],
   });
   const {
@@ -199,7 +199,7 @@ const CreateListing = () => {
                   onClick={handleListingChange}
                   className={` w-full  py-4 px-8 shadow-md hover:shadow-lg active:shadow-xl transition-shadow duration-300 text-xl font-semibold uppercase focus:shadow-md rounded-sm  ${
                     type === "sell"
-                      ? "  text-white bg-slate-600"
+                      ? "  text-white bg-gray-600"
                       : "text-black bg-white"
                   }`}
                 >
@@ -212,7 +212,7 @@ const CreateListing = () => {
                   onClick={handleListingChange}
                   className={` w-full  py-4 px-8 shadow-md hover:shadow-lg active:shadow-xl transition-shadow duration-300 text-xl font-semibold uppercase  focus:shadow-md rounded-sm ${
                     type === "rent"
-                      ? "  text-white bg-slate-600"
+                      ? "  text-white bg-gray-600"
                       : "text-black bg-white"
                   }`}
                 >
@@ -233,7 +233,7 @@ const CreateListing = () => {
                 value={propertyName}
                 onChange={handleListingChange}
                 placeholder="Property Name"
-                className=" py-3 px-5 w-full bg-white text-xl rounded-md border border-slate-300 outline-slate-500 my-3"
+                className=" py-3 px-5 w-full bg-white text-xl rounded-md border border-gray-300 outline-gray-500 my-3"
                 required
               />
             </div>
@@ -251,7 +251,7 @@ const CreateListing = () => {
                     max="50"
                     value={bedrooms}
                     onChange={handleListingChange}
-                    className=" py-2 px-4 w-full bg-white text-lg text-center rounded-md border border-slate-300 outline-slate-500 my-3"
+                    className=" py-2 px-4 w-full bg-white text-lg text-center rounded-md border border-gray-300 outline-gray-500 my-3"
                     required
                   />
                 </div>
@@ -266,7 +266,7 @@ const CreateListing = () => {
                     max="50"
                     value={bathrooms}
                     onChange={handleListingChange}
-                    className=" py-2 px-4 w-full bg-white text-lg text-center rounded-md border border-slate-300 outline-slate-500 my-3"
+                    className=" py-2 px-4 w-full bg-white text-lg text-center rounded-md border border-gray-300 outline-gray-500 my-3"
                     required
                   />
                 </div>
@@ -285,7 +285,7 @@ const CreateListing = () => {
                   onClick={handleListingChange}
                   className={` w-full  py-4 px-8 shadow-md hover:shadow-lg active:shadow-xl transition-shadow duration-300 text-xl font-semibold uppercase focus:shadow-md rounded-sm ${
                     furnished
-                      ? "  text-white bg-slate-600"
+                      ? "  text-white bg-gray-600"
                       : "text-black bg-white"
                   } `}
                 >
@@ -298,7 +298,7 @@ const CreateListing = () => {
                   onClick={handleListingChange}
                   className={` w-full  py-4 px-8 shadow-md hover:shadow-lg active:shadow-xl transition-shadow duration-300 text-xl font-semibold uppercase focus:shadow-md rounded-sm ${
                     !furnished
-                      ? "  text-white bg-slate-600"
+                      ? "  text-white bg-gray-600"
                       : "text-black bg-white"
                   }`}
                 >
@@ -319,7 +319,7 @@ const CreateListing = () => {
                   onClick={handleListingChange}
                   className={` w-full  py-4 px-8 shadow-md hover:shadow-lg active:shadow-xl transition-shadow duration-300 text-xl font-semibold uppercase focus:shadow-md rounded-sm ${
                     parkingSpot
-                      ? "  text-white bg-slate-600"
+                      ? "  text-white bg-gray-600"
                       : "text-black bg-white"
                   }`}
                 >
@@ -332,7 +332,7 @@ const CreateListing = () => {
                   onClick={handleListingChange}
                   className={` w-full  py-4 px-8 shadow-md hover:shadow-lg active:shadow-xl transition-shadow duration-300 text-xl font-semibold uppercase focus:shadow-md rounded-sm ${
                     !parkingSpot
-                      ? "  text-white bg-slate-600"
+                      ? "  text-white bg-gray-600"
                       : "text-black bg-white"
                   } `}
                 >
@@ -353,7 +353,7 @@ const CreateListing = () => {
                 value={address}
                 onChange={handleListingChange}
                 placeholder="Address"
-                className=" py-3 px-5 w-full bg-white text-lg rounded-md border border-slate-300 outline-slate-500 my-3"
+                className=" py-3 px-5 w-full bg-white text-lg rounded-md border border-gray-300 outline-gray-500 my-3"
                 required
               ></textarea>
             </div>
@@ -370,7 +370,7 @@ const CreateListing = () => {
                       id="latitude"
                       value={latitude}
                       onChange={handleListingChange}
-                      className=" py-2 px-8 w-full bg-white text-lg text-center rounded-md border border-slate-300 outline-slate-500 my-3"
+                      className=" py-2 px-8 w-full bg-white text-lg text-center rounded-md border border-gray-300 outline-gray-500 my-3"
                       required
                     />
                   </div>
@@ -383,7 +383,7 @@ const CreateListing = () => {
                       id="longitude"
                       value={longitude}
                       onChange={handleListingChange}
-                      className=" py-2 px-8 w-full bg-white text-lg text-center rounded-md border border-slate-300 outline-slate-500 my-3"
+                      className=" py-2 px-8 w-full bg-white text-lg text-center rounded-md border border-gray-300 outline-gray-500 my-3"
                       required
                     />
                   </div>
@@ -403,7 +403,7 @@ const CreateListing = () => {
                 maxLength="750"
                 onChange={handleListingChange}
                 placeholder="Description"
-                className=" py-3 px-5 w-full bg-white text-lg rounded-md border border-slate-300 outline-slate-500 my-3"
+                className=" py-3 px-5 w-full bg-white text-lg rounded-md border border-gray-300 outline-gray-500 my-3"
                 required
               ></textarea>
             </div>
@@ -415,7 +415,7 @@ const CreateListing = () => {
                   value={true}
                   onClick={handleListingChange}
                   className={` w-full  py-4 px-8 shadow-md hover:shadow-lg active:shadow-xl transition-shadow duration-300 text-xl font-semibold uppercase focus:shadow-md rounded-sm ${
-                    offer ? "  text-white bg-slate-600" : "text-black bg-white"
+                    offer ? "  text-white bg-gray-600" : "text-black bg-white"
                   }`}
                 >
                   Yes
@@ -425,7 +425,7 @@ const CreateListing = () => {
                   value={false}
                   onClick={handleListingChange}
                   className={`w-full  py-4 px-8 shadow-md hover:shadow-lg active:shadow-xl transition-shadow duration-300 text-xl font-semibold uppercase focus:shadow-md rounded-sm ${
-                    !offer ? "  text-white bg-slate-600" : "text-black bg-white"
+                    !offer ? "  text-white bg-gray-600" : "text-black bg-white"
                   } `}
                 >
                   No
@@ -445,11 +445,11 @@ const CreateListing = () => {
                   onChange={handleListingChange}
                   min={50}
                   max={400000000000}
-                  className="p-2 w-full lg:w-[10vw] bg-white text-lg text-center rounded-md border border-slate-300 outline-slate-500 my-3"
+                  className="p-2 w-full lg:w-[10vw] bg-white text-lg text-center rounded-md border border-gray-300 outline-gray-500 my-3"
                   required
                 />
                 {type === "rent" ? (
-                  <p className=" text-xl uppercase font-semibold w-full whitespace-nowrap text-slate-700">
+                  <p className=" text-xl uppercase font-semibold w-full whitespace-nowrap text-gray-700">
                     ₦ / Month
                   </p>
                 ) : null}
@@ -468,7 +468,7 @@ const CreateListing = () => {
                   onChange={handleListingChange}
                   min={50}
                   max={400000000000}
-                  className="p-2 w-[40vw] lg:w-[10vw] bg-white text-lg text-center rounded-md border border-slate-300 outline-slate-500 my-3"
+                  className="p-2 w-[40vw] lg:w-[10vw] bg-white text-lg text-center rounded-md border border-gray-300 outline-gray-500 my-3"
                   required={offer}
                 />
               </div>
@@ -476,13 +476,13 @@ const CreateListing = () => {
             {/* Property Image */}
             <div className=" mt-5">
               <p className=" font-bold text-xl md:text-2xl uppercase">Images</p>
-              <p className=" font-semibold text-lg capitalize my-1.5 whitespace-nowrap text-slate-600">
+              <p className=" font-semibold text-lg capitalize my-1.5 whitespace-nowrap text-gray-600">
                 The First Image will be the cover (max 6)
               </p>
               <input
                 type="file"
                 id="images"
-                className=" w-full py-3 lg:py-2 px-6 lg:px-4 bg-white border border-slate-300 rounded-md focus:bg-white focus:border-slate-300 shadow-md focus:shadow-md transition-all duration-300 cursor-pointer file:cursor-pointer file:bg-slate-700 file:text-white file:border-none file:rounded-md file:p-1"
+                className=" w-full py-3 lg:py-2 px-6 lg:px-4 bg-white border border-gray-300 rounded-md focus:bg-white focus:border-slate-300 shadow-md focus:shadow-md transition-all duration-300 cursor-pointer file:cursor-pointer file:bg-gray-700 file:text-white file:border-none file:rounded-md file:p-1"
                 accept=".jpg,.png,.jpeg"
                 multiple
                 required

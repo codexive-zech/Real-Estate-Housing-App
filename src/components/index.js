@@ -8,6 +8,7 @@ import Slider from "./Slider";
 import HomeOffer from "./HomeOffer";
 import RentPlace from "./RentPlace";
 import SellPlace from "./SellPlace";
+
 export {
   Header,
   OAuthButton,

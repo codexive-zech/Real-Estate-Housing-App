@@ -6,7 +6,7 @@
   body::-webkit-scrollbar {
     scroll-behavior: smooth;
     scrollbar-width: thin;
-    scrollbar-color: #1b3b92 #285df0;
+    scrollbar-color: #591b92 #283b70;
   }
 
   body::-webkit-scrollbar {
@@ -18,7 +18,7 @@
   }
 
   body::-webkit-scrollbar-track {
-    @apply bg-gradient-to-b from-slate-100 to-gray-100;
+    @apply bg-gradient-to-b from-gray-600 to-green-400;
   }
 }
 
