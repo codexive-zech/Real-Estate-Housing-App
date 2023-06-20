@@ -1,4 +1,3 @@
-import Header from "./Header";
 import OAuthButton from "./OAuthButton";
 import PrivateRoute from "./PrivateRoute";
 import Spinner from "./Spinner";
@@ -8,9 +7,9 @@ import Slider from "./Slider";
 import HomeOffer from "./HomeOffer";
 import RentPlace from "./RentPlace";
 import SellPlace from "./SellPlace";
+import NavbarTop from "./NavbarTop";
 
 export {
-  Header,
   OAuthButton,
   PrivateRoute,
   Spinner,
@@ -20,4 +19,5 @@ export {
   HomeOffer,
   RentPlace,
   SellPlace,
+  NavbarTop,
 };

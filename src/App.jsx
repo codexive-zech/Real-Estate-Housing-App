@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { Header, PrivateRoute, Spinner } from "./components";
+import { NavbarTop, PrivateRoute, Spinner } from "./components";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { lazy, Suspense } from "react";
@@ -19,7 +19,7 @@ function App() {
   return (
     <>
       <Router>
-        <Header />
+        <NavbarTop />
         <Suspense fallback={<Spinner />}>
           <Routes>
             <Route path="/" element={<Home />} />

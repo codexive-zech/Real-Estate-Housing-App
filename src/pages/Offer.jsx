@@ -90,7 +90,7 @@ const Offer = () => {
       <>
         <div className=" h-screen flex items-center justify-center">
           <h1 className=" text-xl lg:text-2xl font-bold text-center">
-            No Listing Offer
+            No Offer Listings
           </h1>
         </div>
       </>

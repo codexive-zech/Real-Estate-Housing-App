@@ -7,7 +7,7 @@ import {
   Avatar,
 } from "@material-tailwind/react";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import realtorLogo from "../assets/realtor-logo.svg";
+import Logo from "../assets/logo.png";
 import avatarPerson from "../assets/avatar.svg";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -60,7 +60,7 @@ const NavbarTop = () => {
       >
         <li
           className={`py-1 text-sm cursor-pointer  uppercase text-gray-500 font-semibold border-b-[3px] border-b-transparent ${
-            getLocation("/") && " border-b-red-500 text-slate-900"
+            getLocation("/") && " border-b-red-500 text-gray-900"
           }`}
           onClick={() => navigate("/")}
         >
@@ -75,7 +75,7 @@ const NavbarTop = () => {
       >
         <li
           className={`py-1 text-sm  cursor-pointer  uppercase text-gray-500 font-semibold border-b-[3px] border-b-transparent ${
-            getLocation("/offer") && " border-b-red-500 text-slate-900"
+            getLocation("/offer") && " border-b-red-500 text-gray-900"
           }`}
           onClick={() => navigate("/offer")}
         >
@@ -92,7 +92,7 @@ const NavbarTop = () => {
           className={`py-1 text-sm cursor-pointer  uppercase text-gray-500 font-semibold border-b-[3px] border-b-transparent ${
             // having both location url
             (getLocation("/sign-in") || getLocation("/profile")) &&
-            "border-b-red-500 text-slate-900"
+            "border-b-red-500 text-gray-900"
           }`}
           onClick={() => navigate("/profile")}
         >
@@ -104,8 +104,8 @@ const NavbarTop = () => {
   return (
     <>
       <Navbar className=" rounded-none bg-white mx-auto max-w-none sticky z-20">
-        <div className=" flex items-center justify-between text-blue-gray-900 max-w-6xl mx-auto">
-          <img src={realtorLogo} className=" h-6" alt="" />
+        <div className=" flex items-center justify-between text-blue-gray-900 max-w-6xl mx-auto cursor-pointer">
+          <img src={Logo} className=" h-6" alt="" />
           <div className="hidden lg:block">{navList}</div>
 
           {auth.currentUser && (
@@ -114,7 +114,7 @@ const NavbarTop = () => {
                 variant="circular"
                 size="sm"
                 alt="candice wu"
-                className="border border-[#a8dadc] p-0.5"
+                className="border border-[#E15659] p-0.5"
                 src={auth.currentUser?.photoURL || avatarPerson}
               />
             </div>
