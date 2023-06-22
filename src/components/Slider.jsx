@@ -83,7 +83,7 @@ const Slider = () => {
 
                     overflow: "hidden",
                   }}
-                  className=" relative h-[300px] md:h-[350px]"
+                  className=" relative h-[300px] md:h-[400px]"
                 ></div>
                 <p className=" absolute top-3 left-3 bg-[#457b9d] p-1.5 text-white rounded-br-2xl font-medium  text-base md:text-lg lg:text-xl capitalize">
                   {data.propertyName}
