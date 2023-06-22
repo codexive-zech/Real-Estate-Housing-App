@@ -80,7 +80,6 @@ const Slider = () => {
                     backgroundRepeat: "no-repeat",
                     backgroundSize: "cover",
                     width: "100%",
-
                     overflow: "hidden",
                   }}
                   className=" relative h-[300px] md:h-[400px]"

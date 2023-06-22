@@ -78,7 +78,7 @@ const SingleListing = () => {
                       backgroundRepeat: "no-repeat",
                       backgroundSize: "cover",
                       width: "100%",
-                      height: "300px",
+                      height: "400px",
                       overflow: "hidden",
                     }}
                     className=" relative"
