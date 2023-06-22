@@ -25,7 +25,7 @@ const Slider = () => {
       const listingQuery = query(
         listingRef,
         orderBy("timestamp", "desc"),
-        limit(4)
+        limit(10)
       ); // make a query to the firebase store getting just the last 4 added listings
       const listingSnapShot = await getDocs(listingQuery); // make an api request to fetch the listing
       let listings = [];

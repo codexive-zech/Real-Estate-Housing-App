@@ -8,7 +8,7 @@ const ListingItem = ({ listing, id, onEdit, onDelete }) => {
   const navigate = useNavigate();
   return (
     <>
-      <li className=" relative bg-white shadow-sm hover:shadow-md transition-shadow duration-300 mb-5 rounded-md overflow-hidden">
+      <li className=" relative bg-white shadow-sm hover:shadow-md transition-shadow duration-300 mb-5 rounded-md overflow-hidden cursor-pointer">
         <div onClick={() => navigate(`/category/${listing.type}/${id}`)}>
           <img
             src={listing.imgUrls[0]?.downloadURL || imageNotFound}

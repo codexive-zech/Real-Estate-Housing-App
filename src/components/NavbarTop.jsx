@@ -105,9 +105,13 @@ const NavbarTop = () => {
     <>
       <Navbar className=" rounded-none bg-white mx-auto max-w-none sticky z-20">
         <div className=" flex items-center justify-between text-blue-gray-900 max-w-6xl mx-auto cursor-pointer">
-          <img src={Logo} className=" h-6" alt="" />
+          <img
+            onClick={() => navigate("/")}
+            src={Logo}
+            className=" h-6"
+            alt=""
+          />
           <div className="hidden lg:block">{navList}</div>
-
           {auth.currentUser && (
             <div className="hidden lg:flex items-center ">
               <Avatar
@@ -119,7 +123,6 @@ const NavbarTop = () => {
               />
             </div>
           )}
-
           <IconButton
             variant="text"
             className="ml-auto h-6 w-6 text-inherit hover:bg-transparent focus:bg-transparent active:bg-transparent lg:hidden"
