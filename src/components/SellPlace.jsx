@@ -13,7 +13,7 @@ import { Link } from "react-router-dom";
 import ListingItem from "./ListingItem";
 
 const SellPlace = () => {
-  const [rentListings, setRentListings] = useState(null);
+  const [sellListing, setSellListings] = useState(null);
   const [loading, setLoading] = useState(false);
 
   const getPlaceForRentListing = async () => {
@@ -34,7 +34,7 @@ const SellPlace = () => {
           data: rentListingDoc.data(),
         });
       });
-      setRentListings(listings);
+      setSellListings(listings);
       setLoading(false);
     } catch (error) {
       console.log(error);
@@ -53,7 +53,7 @@ const SellPlace = () => {
   return (
     <>
       <>
-        {rentListings && rentListings.length > 0 && (
+        {sellListing && sellListing.length > 0 && (
           <>
             <div className=" my-8 w-[90vw] max-w-6xl mx-auto">
               <h3 className=" text-xl md:text-2xl lg:text-3xl font-bold capitalize">
@@ -66,7 +66,7 @@ const SellPlace = () => {
                 Show More Places For Sale
               </Link>
               <ul className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 my-3 ">
-                {rentListings.map((listing) => {
+                {sellListing.map((listing) => {
                   return (
                     <ListingItem
                       key={listing.id}

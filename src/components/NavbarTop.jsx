@@ -103,7 +103,7 @@ const NavbarTop = () => {
   );
   return (
     <>
-      <Navbar className=" rounded-none bg-white mx-auto max-w-none sticky z-20">
+      <Navbar className=" rounded-none bg-white mx-auto max-w-none sticky z-30 shadow-md">
         <div className=" flex items-center justify-between text-blue-gray-900 max-w-6xl mx-auto cursor-pointer">
           <img
             onClick={() => navigate("/")}
@@ -117,7 +117,7 @@ const NavbarTop = () => {
               <Avatar
                 variant="circular"
                 size="sm"
-                alt="candice wu"
+                alt={auth.currentUser.displayName}
                 className="border border-[#E15659] p-0.5"
                 src={auth.currentUser?.photoURL || avatarPerson}
               />
