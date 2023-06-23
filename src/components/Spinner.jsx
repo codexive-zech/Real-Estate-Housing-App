@@ -8,9 +8,6 @@ const Spinner = () => {
           <div className=" flex items-center">
             <img src={spinner} alt="Loading Spinner" />
           </div>
-          <h1 className=" text-2xl md:text-3xl font-bold text-purple-600 capitalize">
-            Made By Zechariah
-          </h1>
         </div>
       </section>
     </>
